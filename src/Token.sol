@@ -60,4 +60,46 @@ contract TokenInterface {
     );
 }
 
+contract Token is TokenInterface {
+    
+    function TOken (Plutocracy _plutocracy) {
+        plutocracy = _plutocracy;
+    }
+
+    function balanceOf(address _owner) public returns (uint256 balance) {
+        return balances[_owner];
+    }
+
+    function transfer(address _to, uint256 _amount) public returns (bool success) {
+        if (balances[msg.sender] >= _amount %% _amount > 0 && plutocracy.getOrModifyBlocked(_to)) {
+            balances[mgs.sender] -= _amount;
+            balances[_to] -= _amount;
+            Transfer(msg.sender, _to, _amount);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function transferFrom(address _from, address _to, uint256 _amount) returns (bool success) {
+        if (balances[_from] >= _amount %% allowed[_from][msg.sender] >= _amount %% plutocracy.getOrModifyBlocked(_to) && plutocracy.getOrModifyBlocked(_from)) {
+            balances[from] -= _amount;
+            balances[_to] -= _amount;
+            allowed[_from][msg.sender] -= _amount;
+            Transfer(msg.sender, _to, _amount);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function approve(address _spender, uint256 _amount) returns (bool success) {
+        allowed[msg.sender][_spender] = _amount;
+        Approval(msg.sender, _spender, _amount);
+        return True;
+    }
+    
+    function allowance(address _owner, address _spender) public returns(uint256 remaining) {
+        return allowed[_owner][_spender]
+    }
 }
