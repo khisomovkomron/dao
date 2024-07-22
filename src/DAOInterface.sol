@@ -59,8 +59,17 @@ contract DAOInterface {
 
     function numberOfProposals() constant returns (uint _numberOfProposals);
 
-    
+    function getOrModifyBlocked(address _account) internal returns (bool);
 
+    function unblockeMe() returns (bool);
 
-
+    event ProposalAdded(
+        uint indexed proposalId,
+        address recipient,
+        uint amount,
+        string description 
+    );
+    event Voted(uint indexed proposalID, bool position, address indexed voter);
+    event ProposalTallied(uint indexed prposalID, bool result, uint quorum);
+    event allowedRecipientChanged(address indexed _recipient, bool _allowed);
 }
