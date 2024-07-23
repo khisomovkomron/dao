@@ -2,7 +2,17 @@ pragma solidity ^0.8.20;
 
 import {Token} from "./TokenCreation.sol";
 
-contract DAOInterface {
+abstract contract DAOInterface {
+    event ProposalAdded(
+        uint indexed proposalId,
+        address recipient,
+        uint amount,
+        string description 
+    );
+    event Voted(uint indexed proposalID, bool position, address indexed voter);
+    event ProposalTallied(uint indexed prposalID, bool result, uint quorum);
+    event allowedRecipientChanged(address indexed _recipient, bool _allowed);
+
     uint256 constant minProposalDatePeriod = 2 weeks;
     uint256 constant quorumHalvingPeriod = 25 weeks;
     uint256 constant executeProposalPeriod = 10 days;
@@ -39,37 +49,30 @@ contract DAOInterface {
         address creator;
     }
 
-    function() payable;
+    receive() external payable {}
 
-    function newProposal() public returns (uint _proposalId);
+    fallback() external payable {}
 
-    function checkProposalCode() constant returns (bool _codeCheckout);
+    function newProposal() public virtual returns (uint _proposalId);
 
-    function vote(uint _proposalId, bool _supportsProposal);
+    function checkProposalCode() public virtual returns (bool _codeCheckout);
 
-    function executeProposal(uint _proposalId, bytes _transactionData) returns (bool _success);
+    function vote(uint _proposalId, bool _supportsProposal) public virtual;
+
+    function executeProposal(uint _proposalId, bytes memory _transactionData) public virtual returns (bool _success);
     
-    function newContract(address _newContract);
+    function newContract(address _newContract) public virtual;
 
-    function changeAllowedRecipients(address _recipient, bool _allowd) external returns (bool _success);
+    function changeAllowedRecipients(address _recipient, bool _allowd) external virtual returns (bool _success);
 
-    function changeProposalDeposit(uint _proposalDeposit) external;
+    function changeProposalDeposit(uint _proposalDeposit) external virtual;
 
-    function halveMinQuorum() returns (bool _success);
+    function halveMinQuorum() external virtual returns (bool _success) ;
 
-    function numberOfProposals() constant returns (uint _numberOfProposals);
+    function numberOfProposals() external virtual returns (uint _numberOfProposals);
 
-    function getOrModifyBlocked(address _account) internal returns (bool);
+    function getOrModifyBlocked(address _account) internal virtual returns (bool);
 
-    function unblockeMe() returns (bool);
+    function unblockeMe() external virtual returns (bool);
 
-    event ProposalAdded(
-        uint indexed proposalId,
-        address recipient,
-        uint amount,
-        string description 
-    );
-    event Voted(uint indexed proposalID, bool position, address indexed voter);
-    event ProposalTallied(uint indexed prposalID, bool result, uint quorum);
-    event allowedRecipientChanged(address indexed _recipient, bool _allowed);
 }
