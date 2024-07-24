@@ -31,6 +31,8 @@ contract DAO{
     mapping(address => Voter) public voters;
     Proposal[] public proposals;
 
+    error voteAlreadyEnded();
+
     constructor(
         address payable _VendingMachineAddress,
         uint _voteTime,
@@ -52,5 +54,14 @@ contract DAO{
         }
     }
 
-    
+    function DepositEth() public payable {
+        DAObalance = address(this).balance;
+
+        if (block.timestamp > voteEndTime) {
+            revert voteAlreadyEnded();
+        }
+
+        require(DAObalance <= 1 ether, "1 Ether balance has been reached");
+        balances[msg.sender] += msg.value;
+    }
 } 
