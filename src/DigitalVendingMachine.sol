@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
 contract VendingMachine{
@@ -16,7 +17,7 @@ contract VendingMachine{
     }
 
     function purchase(uint _amount) public payable {
-        require(msg.sender > _amount * 1 ether);
+        require(msg.value >= (_amount * 1 ether));
         require(cupcakeBalances[address(this)] >= _amount);
         cupcakeBalances[address(this)] -= _amount;
         cupcakeBalances[msg.sender] += _amount;
