@@ -103,4 +103,15 @@ contract DAO{
         payable(msg.sender).transfer(amount);
         DAObalance = address(this).balance;
     }
+
+    function endVote() public {
+        require(block.timestamp > voteEndTime, "Vote not ended yet");
+        require(ended == true, "Must count vote first");
+        require(DAObalance >= 1 ether, "Not enough balance in DAO required to buy cupcakes. Members may withdraw deposited ether");
+
+        if (DAObalance < 1 ether) revert();
+            (bool success, ) = address(VendingMachineAddress).call{value: 1 ether}(abi.encodeWithSignature("purchase(uint256)", 1));
+
+        DAObalance = address(this).balance;
+    }
 } 
