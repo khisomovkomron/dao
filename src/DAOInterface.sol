@@ -13,7 +13,7 @@ abstract contract DAOInterface {
     event ProposalTallied(uint indexed prposalID, bool result, uint quorum);
     event allowedRecipientChanged(address indexed _recipient, bool _allowed);
 
-    uint256 constant minProposalDatePeriod = 2 weeks;
+    uint256 constant minProposalDebatePeriod = 2 weeks;
     uint256 constant quorumHalvingPeriod = 25 weeks;
     uint256 constant executeProposalPeriod = 10 days;
     uint256 constant preSupportTime = 2 days;
