@@ -96,4 +96,11 @@ contract DAO{
             }
         }
     }
+
+    function withdraw(uint amount) public {
+        require(balances[msg.sender] >= amount, "amount > balance");
+        balances[msg.sender] -= amount;
+        payable(msg.sender).transfer(amount);
+        DAObalance = address(this).balance;
+    }
 } 
