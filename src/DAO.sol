@@ -64,4 +64,11 @@ contract DAO{
         require(DAObalance <= 1 ether, "1 Ether balance has been reached");
         balances[msg.sender] += msg.value;
     }
+
+    function giveRightToVote(address voter) public {
+        require(msg.sender == chairPerson, "Only chairperson can give the right to vote");
+        require(!voters[voter].voted, "The voter already voted.");
+        require(voters[voter].weight == 0);
+        voters[voter].weight = 1;
+    }
 } 
