@@ -71,4 +71,29 @@ contract DAO{
         require(voters[voter].weight == 0);
         voters[voter].weight = 1;
     }
+
+    function vote(uint proposal) public {
+        Voter storage sender = voters[msg.sender];
+        require(sender.weight != 0, "Has no right to vote");
+        require(!sender.voted, "Already voted");
+        sender.voted = true;
+        sender.vote = proposal;
+        proposals[proposal].voteCount += sender.weight;
+    }
+
+    function countVote() public returns (uint winningProposal) {
+        require(block.timestamp > voteEndTime, "Vote not ended yet");
+
+        uint winningVoteCount = 0;
+
+        for (uint p=0; p < proposals.length; p++) {
+            if(proposals[p].voteCount > winningVoteCount) {
+                winningVoteCount = proposals[p].voteCount;
+                winningProposal = p;
+
+                decision = winningProposal;
+                ended = true;
+            }
+        }
+    }
 } 
