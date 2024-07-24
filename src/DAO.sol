@@ -114,4 +114,9 @@ contract DAO{
 
         DAObalance = address(this).balance;
     }
+
+    function checkCupcakesBalance() public view returns (uint) {
+        VendingMachine vendingMachine = VendingMachine(VendingMachineAddress);
+        return vendingMachine.cupcakeBalances(address(this));
+    }
 } 

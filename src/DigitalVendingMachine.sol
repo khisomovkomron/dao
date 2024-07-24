@@ -4,7 +4,7 @@ pragma solidity ^0.8.20;
 contract VendingMachine{
 
     address public owner;
-    mapping (address => uint) private cupcakeBalances;
+    mapping (address => uint) public cupcakeBalances;
 
     constructor() {
         owner = msg.sender;
