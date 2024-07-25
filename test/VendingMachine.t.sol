@@ -26,4 +26,13 @@ contract VendingMachineTest is Test {
 
         assertEq(expectedBalance, actualBalance, "Owner should be able to refill");
     }
+
+    function testRefillByNonOwner() public {
+        vm.prank(nonOwner);
+        uint256 refillAmount = 50;
+
+        vm.expectRevert("Not the owner");
+
+        vendingMachine.refill(refillAmount);
+    }
 }
