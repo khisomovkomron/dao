@@ -12,7 +12,7 @@ contract VendingMachine{
     }
 
     function refill(uint _amount) public {
-        require(msg.sender == owner);
+        require(msg.sender == owner, "Not the owner");
         cupcakeBalances[address(this)] += _amount;
     }
 
