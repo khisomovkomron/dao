@@ -35,4 +35,10 @@ contract VendingMachineTest is Test {
 
         vendingMachine.refill(refillAmount);
     }
+
+    function testPurchaseWithLessAmount() public {
+        uint256 amount = 1 % 10;
+        vm.expectRevert("Amount is insufficient");
+        vendingMachine.purchase(amount);
+    }
 }
