@@ -37,8 +37,17 @@ contract VendingMachineTest is Test {
     }
 
     function testPurchaseWithLessAmount() public {
-        uint256 amount = 1 % 10;
+        vm.deal(address(this), 0.5 ether);
+        uint256 amount = 10;
         vm.expectRevert("Amount is insufficient");
         vendingMachine.purchase(amount);
+    }
+
+    function testPurchaseWithGreaterAmount() public {
+        vm.deal(address(this), 200 ether);
+
+        uint256 amount = 101;
+        vm.expectRevert("Amount is greater than Cupcake balance");
+        vendingMachine.purchase{value: amount * 1 ether}(amount);
     }
 }

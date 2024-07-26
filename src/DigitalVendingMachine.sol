@@ -18,7 +18,7 @@ contract VendingMachine{
 
     function purchase(uint _amount) public payable {
         require(msg.value >= (_amount * 1 ether), "Amount is insufficient");
-        require(cupcakeBalances[address(this)] >= _amount);
+        require(cupcakeBalances[address(this)] >= _amount, "Amount is greater than Cupcake balance");
         cupcakeBalances[address(this)] -= _amount;
         cupcakeBalances[msg.sender] += _amount;
     }
