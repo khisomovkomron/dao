@@ -26,7 +26,7 @@ contract daoTest is Test {
         assertEq(dao.VendingMachineAddress(), vendingMachine, "VendingMachineAddress is not set");
     }
 
-    function testVoteEndTime() public {
+    function testVoteEndTime() public view {
         assertEq(dao.voteEndTime(), (block.timestamp + 86400));
     }
 }
