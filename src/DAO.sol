@@ -6,7 +6,7 @@ import {VendingMachine} from "./DigitalVendingMachine.sol";
 
 contract DAO{
 
-    address payable VendingMachineAddress;
+    address payable public VendingMachineAddress;
     uint public voteEndTime;
     uint public DAObalance;
 

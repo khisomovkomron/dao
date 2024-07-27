@@ -21,4 +21,8 @@ contract daoTest is Test {
     function testChairman() public view {
         assertEq(dao.chairPerson(), address(this), "chairPerson not set correctly");
     }
+
+    function testVendingMachineAddress() public view {
+        assertEq(dao.VendingMachineAddress(), vendingMachine, "VendingMachineAddress is not set");
+    }
 }
