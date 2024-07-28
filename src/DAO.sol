@@ -14,13 +14,13 @@ contract DAO{
     bool public ended;
 
     struct Voter{
-        uint weight;
+        uint weight; 
         bool voted;
         address delegate;
         uint vote;
     }
 
-    struct Proposal{
+    struct Proposal {
         string name; 
         uint voteCount;
     }
@@ -117,5 +117,9 @@ contract DAO{
     function checkCupcakesBalance() public view returns (uint) {
         VendingMachine vendingMachine = VendingMachine(VendingMachineAddress);
         return vendingMachine.cupcakeBalances(address(this));
+    }
+
+    function getVoter(address voter) public view returns (Voter memory) {
+        return voters[voter];
     }
 } 

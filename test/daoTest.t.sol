@@ -11,7 +11,7 @@ contract daoTest is Test {
     daoScript public script;
     string[] public proposalTypes;
     address public voter1;
-    uint public voteTime;
+    uint256 public voteTime;
 
     function setUp() public {
         vendingMachine = payable(address(0x123));
@@ -61,4 +61,17 @@ contract daoTest is Test {
         dao.DepositEth{value: 1.5 ether}();
     }
 
+    function testGiveRightVote() public {
+        dao.giveRightToVote(voter1);
+        DAO.Voter memory voter = dao.getVoter(voter1);
+
+        assertEq(voter.weight, 1, "Voter's weight not set correctly");
+    }
+
+    function testGiveRightVoteAlreadyVoted() public {
+        dao.giveRightToVote(voter1);
+
+        vm.expectRevert();
+        dao.giveRightToVote(voter1);
+    }
 }
