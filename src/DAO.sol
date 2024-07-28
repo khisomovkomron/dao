@@ -9,7 +9,7 @@ contract DAO{
     uint public voteEndTime;
     uint public DAObalance;
 
-    mapping(address => uint) balances;
+    mapping(address => uint) public balances;
     uint public decision;
     bool public ended;
 
