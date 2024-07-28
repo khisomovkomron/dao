@@ -34,7 +34,7 @@ contract daoTest is Test {
     }
 
     function testVoteEndTime() public view {
-        assertEq(dao.voteEndTime(), (block.timestamp + 86400));
+        assertEq(dao.voteEndTime(), (block.timestamp + voteTime));
     }
 
     function testDepositEth() public {
@@ -93,5 +93,16 @@ contract daoTest is Test {
 
         vm.expectRevert();
         dao.giveRightToVote(voter1);
+    }
+
+    function testVoteCorrectly() public {
+        dao.giveRightToVote(voter1);
+        vm.prank(voter1);
+
+        dao.vote(0);
+        DAO.Voter memory voter = dao.getVoter(voter1);
+        assertTrue(voter.voted, "Voter's vote status not updated");
+        ( , uint voteCount) = dao.proposals(0);
+        assertEq(voteCount , 1, "Proposal's vote count not updated correctly");
     }
 }
