@@ -11,6 +11,7 @@ contract daoTest is Test {
     daoScript public script;
     string[] public proposalTypes;
     address public voter1;
+    address public nonChairPerson;
     uint256 public voteTime;
 
     function setUp() public {
@@ -19,6 +20,9 @@ contract daoTest is Test {
         proposalTypes = ["buy_cupcakes", "no_cupcakes"];
 
         dao = new DAO(vendingMachine, voteTime, proposalTypes);
+
+        voter1 = address(0x123);
+        nonChairPerson = address(0x456);
     }
 
     function testChairman() public view {
@@ -73,5 +77,12 @@ contract daoTest is Test {
 
         vm.expectRevert();
         dao.giveRightToVote(voter1);
+    }
+
+    function testGiveRightVoteNonChairPerson() public {
+        vm.prank(nonChairPerson);
+
+        vm.expectRevert("Only chairperson can give the right to vote");
+        dao.giveRightToVote(nonChairPerson);
     }
 }
