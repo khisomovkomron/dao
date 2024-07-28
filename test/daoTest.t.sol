@@ -52,4 +52,13 @@ contract daoTest is Test {
         vm.expectRevert();
         dao.DepositEth{value: 1}();
     }
+
+    function testDepositEthExceedsLimit() public {
+        vm.deal(voter1, 2 ether);
+        vm.prank(voter1);
+
+        vm.expectRevert();
+        dao.DepositEth{value: 1.5 ether}();
+    }
+
 }
