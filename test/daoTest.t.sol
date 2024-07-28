@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
-import {Test, console} from "forge-std/Test.sol";
+import {Test} from "forge-std/Test.sol";
+import {console} from "forge-std/console.sol";
 import {daoScript} from "../script/daoScript.s.sol";
 import {DAO} from "../src/DAO.sol";
 
@@ -104,12 +105,11 @@ contract daoTest is Test {
         dao.vote(0);
         DAO.Voter memory voter = dao.getVoter(voter1);
         assertTrue(voter.voted, "Voter's vote status not updated");
-        ( , uint voteCount) = dao.proposals(0);
-        assertEq(voteCount , 1, "Proposal's vote count not updated correctly");
+        (, uint256 voteCount) = dao.proposals(0);
+        assertEq(voteCount, 1, "Proposal's vote count not updated correctly");
     }
 
     function testCountVote() public {
-        
         dao.giveRightToVote(voter1);
         dao.giveRightToVote(voter2);
         dao.vote(0);
@@ -117,9 +117,19 @@ contract daoTest is Test {
         vm.warp(block.timestamp + voteTime + 1);
 
         assertEq(dao.countVote(), 0, "Winning proposal is incorrect");
+    }
 
+    function testWithdraw() public {
+        uint256 initialBalance = address(dao).balance;
+        vm.deal(voter1, 2 ether);
+        vm.prank(voter1);
 
+        dao.DepositEth{value: 1 ether}();
 
-
+        vm.prank(voter1);
+        uint256 amount = 0.5 ether;
+        dao.withdraw(amount);
+        assertEq(dao.balances(voter1), 0.5 ether);
+        assertEq(address(dao).balance, 0.5 ether);
     }
 }
