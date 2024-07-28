@@ -11,6 +11,7 @@ contract daoTest is Test {
     daoScript public script;
     string[] public proposalTypes;
     address public voter1;
+    address public voter2;
     address public nonChairPerson;
     uint256 public voteTime;
 
@@ -22,6 +23,7 @@ contract daoTest is Test {
         dao = new DAO(vendingMachine, voteTime, proposalTypes);
 
         voter1 = address(0x123);
+        voter1 = address(0x789);
         nonChairPerson = address(0x456);
     }
 
@@ -104,5 +106,20 @@ contract daoTest is Test {
         assertTrue(voter.voted, "Voter's vote status not updated");
         ( , uint voteCount) = dao.proposals(0);
         assertEq(voteCount , 1, "Proposal's vote count not updated correctly");
+    }
+
+    function testCountVote() public {
+        
+        dao.giveRightToVote(voter1);
+        dao.giveRightToVote(voter2);
+        dao.vote(0);
+
+        vm.warp(block.timestamp + voteTime + 1);
+
+        assertEq(dao.countVote(), 0, "Winning proposal is incorrect");
+
+
+
+
     }
 }

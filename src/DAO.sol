@@ -94,6 +94,8 @@ contract DAO{
                 ended = true;
             }
         }
+
+        return decision;
     }
 
     function withdraw(uint amount) public {
