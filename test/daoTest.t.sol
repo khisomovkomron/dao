@@ -85,4 +85,13 @@ contract daoTest is Test {
         vm.expectRevert("Only chairperson can give the right to vote");
         dao.giveRightToVote(nonChairPerson);
     }
+
+    function testGiveRightVoteHasAlreadyVote() public {
+        dao.giveRightToVote(voter1);
+        vm.prank(voter1);
+        dao.vote(0);
+
+        vm.expectRevert();
+        dao.giveRightToVote(voter1);
+    }
 }
