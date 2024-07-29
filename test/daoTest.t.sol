@@ -120,7 +120,6 @@ contract daoTest is Test {
     }
 
     function testWithdraw() public {
-        uint256 initialBalance = address(dao).balance;
         vm.deal(voter1, 2 ether);
         vm.prank(voter1);
 
