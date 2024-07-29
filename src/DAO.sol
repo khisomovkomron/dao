@@ -112,6 +112,7 @@ contract DAO{
 
         if (DAObalance < 1 ether) revert();
             (bool success, ) = address(VendingMachineAddress).call{value: 1 ether}(abi.encodeWithSignature("purchase(uint256)", 1));
+            require(success);
 
         DAObalance = address(this).balance;
     }
