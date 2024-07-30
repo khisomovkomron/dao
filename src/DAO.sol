@@ -2,8 +2,9 @@
 pragma solidity ^0.8.20;
 
 import {VendingMachine} from "./DigitalVendingMachine.sol";
+import {UUPSUpgradeable} from "./UUPSUpgradeable.sol";
 
-contract DAO{
+contract DAO is UUPSUpgradeable{
 
     address payable public VendingMachineAddress;
     uint public voteEndTime;
@@ -32,11 +33,11 @@ contract DAO{
 
     error voteAlreadyEnded();
 
-    constructor(
+    function initialize(
         address payable _VendingMachineAddress,
         uint _voteTime,
         string[] memory proposalNames
-    ){
+    ) public {
         VendingMachineAddress = _VendingMachineAddress;
         chairPerson = msg.sender;
 
@@ -52,6 +53,7 @@ contract DAO{
             );
         }
     }
+
 
     function DepositEth() public payable {
         DAObalance = address(this).balance;
@@ -124,5 +126,9 @@ contract DAO{
 
     function getVoter(address voter) public view returns (Voter memory) {
         return voters[voter];
+    }
+
+    function _authorizeUpgrade(address newImplementation) internal override {
+        require(msg.sender == chairPerson, "Only chairPerson can authorize upgrades");
     }
 } 

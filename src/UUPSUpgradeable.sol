@@ -3,7 +3,7 @@ pragma solidity ^0.8.20;
 abstract contract UUPSUpgradeable {
     address private immutable self = address(this);
 
-    function _authorize(address newImplementation) internal virtual;
+    function _authorizeUpgrade(address newImplementation) internal virtual;
 
     function upgradeTo(address newImplementation) internal virtual;
 
