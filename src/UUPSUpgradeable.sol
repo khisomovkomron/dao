@@ -5,7 +5,7 @@ abstract contract UUPSUpgradeable {
 
     function _authorizeUpgrade(address newImplementation) internal virtual;
 
-    function upgradeTo(address newImplementation) internal virtual;
+    // function upgradeTo(address newImplementation) external virtual;
 
     function _upgradeTo(address newImplementation) private {
         require(newImplementation != address(0), "UUPSUpgradeable: new implementation is zero address");

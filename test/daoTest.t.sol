@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
-import {Test} from "forge-std/Test.sol";
-import {console} from "forge-std/console.sol";
+import {Test} from "../lib/forge-std/src/Test.sol";
+import {console} from "../lib/forge-std/src/console.sol";
 import {daoScript} from "../script/daoScript.s.sol";
 import {DAO} from "../src/DAO.sol";
 
@@ -21,7 +21,8 @@ contract daoTest is Test {
         voteTime = 1 weeks;
         proposalTypes = ["buy_cupcakes", "no_cupcakes"];
 
-        dao = new DAO(vendingMachine, voteTime, proposalTypes);
+        dao = new DAO();
+        dao.initialize(vendingMachine, voteTime, proposalTypes);
 
         voter1 = address(0x123);
         voter1 = address(0x789);

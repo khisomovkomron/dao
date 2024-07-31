@@ -128,7 +128,7 @@ contract DAO is UUPSUpgradeable{
         return voters[voter];
     }
 
-    function _authorizeUpgrade(address newImplementation) internal override {
-        require(msg.sender == chairPerson, "Only chairPerson can authorize upgrades");
+    function _authorizeUpgrade(address newImplementation) internal view override {
+        require(msg.sender == chairPerson, "Only chairperson can authorize upgrades");
     }
 } 

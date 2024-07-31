@@ -48,4 +48,6 @@ contract Proxy {
             default {return(ptr, size)}
         }
     }
+
+    receive() external payable {}
 }
