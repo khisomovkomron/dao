@@ -2,33 +2,33 @@ pragma solidity ^0.8.20;
 
 contract Proxy {
     address public implementation;
+    address public admin;
 
     constructor(address _implementation) {
         implementation = _implementation;
+        admin = msg.sender;
     }
 
-    function ugradeTo(address newImplementation) public {
-        require(msg.sender == admin(), "Proxy: Only admin can upgrade");
+    modifier onlyAdmin() {
+        require(msg.sender == admin, "Proxy: only admin can perform this action");
+        _;
+    }
+
+    function ugradeTo(address newImplementation) public onlyAdmin{
         implementation = newImplementation;
     }
 
-    function admin() public view returns (address) {
-        bytes32 position = keccak256("proxy.admin");
-        address adminAddress;
-        assembly {
-            adminAddress := sload(position)
-        }
-
-        return adminAddress;
+    function setAdmin(address newAdmin) public onlyAdmin {
+        admin = newAdmin;
     }
 
-    function setAdmin(address newAdmin) public {
-        require(msg.sender == admin(),"Proxy: only admin can set new admin");
-        bytes32 position = keccak256("proxy.admin");
-        assembly {
-            sstore(position, newAdmin)
-        }
-    }
+    // function setAdmin(address newAdmin) public {
+        // require(msg.sender == admin(),"Proxy: only admin can set new admin");
+        // bytes32 position = keccak256("proxy.admin");
+        // assembly {
+        //     sstore(position, newAdmin)
+        // }
+    // }
 
     fallback() external payable {
         address impl = implementation;

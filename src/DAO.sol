@@ -14,6 +14,9 @@ contract DAO is UUPSUpgradeable{
     uint public decision;
     bool public ended;
 
+    bool private initialized;
+
+
     struct Voter{
         uint weight; 
         bool voted;
@@ -38,6 +41,9 @@ contract DAO is UUPSUpgradeable{
         uint _voteTime,
         string[] memory proposalNames
     ) public {
+        require(!initialized, "Already initialized");
+        initialized = true; 
+
         VendingMachineAddress = _VendingMachineAddress;
         chairPerson = msg.sender;
 
@@ -128,7 +134,7 @@ contract DAO is UUPSUpgradeable{
         return voters[voter];
     }
 
-    function _authorizeUpgrade(address newImplementation) internal view override {
+    function _authorizeUpgrade(address /*newImplementation*/) internal view override {
         require(msg.sender == chairPerson, "Only chairperson can authorize upgrades");
     }
 } 
