@@ -45,6 +45,21 @@ contract ProxyTest is Test {
         assertEq(daoProxy.DAObalance(), 1 ether, "DAO balance not updated correctly through proxy");
 
     }
+
+    function testUpgradeFunctionality() public {
+        DAO newDaoImplementation = new DAO();
+
+        proxy.ugradeTo(address(newDaoImplementation));
+
+        daoProxy = DAO(address(proxy));
+
+        daoProxy.giveRightToVote(admin);
+
+        DAO.Voter memory voter = daoProxy.getVoter(admin);
+
+        assertEq(voter.weight, 1, "Admin's weight not set correctly after upgrade through proxy");
+
+    }
 }
 
 
