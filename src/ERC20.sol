@@ -18,3 +18,11 @@ contract NewToken  is Initializable, ERC20Upgradeable, UUPSUpgradeable, OwnableU
     function _authorizeUpgrade(address newImplementations) internal override onlyOwner() {}
 }
 
+
+
+contract NewTokenV2 is NewToken {
+
+    function version() pure public returns (string memory) {
+        return "v2!";
+    }
+}
