@@ -21,8 +21,18 @@ contract NewToken  is Initializable, ERC20Upgradeable, UUPSUpgradeable, OwnableU
 
 
 contract NewTokenV2 is NewToken {
+    string vers = "v2!";
 
-    function version() pure public returns (string memory) {
-        return "v2!";
+    function version() public view returns (string memory) {
+        return vers;
+    }
+}
+
+contract NewTokenV3 is NewToken {
+    string vers = "v2!";
+    string versv2 = "v3!";
+
+    function version() public view returns (string memory) {
+        return versv2;
     }
 }
